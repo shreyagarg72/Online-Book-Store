@@ -1,0 +1,7 @@
+version: "3.3"
+
+services:
+  frontend:
+    image: 07197102/frontend-project:latest
+    ports:
+      - "8000:8000"
