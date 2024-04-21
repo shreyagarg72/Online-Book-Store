@@ -1,7 +1,7 @@
 version: "3.3"
-
 services:
-  frontend:
-    image: 07197102/frontend-project:latest
+  web:
+    build: .
+    image: 07197102/my-notes-app:latest
     ports:
-      - "8000:8000"
+      - "5500:5500"
