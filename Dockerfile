@@ -1,20 +1,15 @@
-# Use the official Node.js image with Alpine Linux as the base image
-FROM node:alpine
+# Use a base image with Nginx and Alpine Linux
+FROM nginx:alpine
 
 # Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /usr/share/nginx/html
 
-# Copy package.json and package-lock.json files to the working directory
-COPY package*.json ./
+# Copy the index.html file to the Nginx web server directory
+COPY index.html .
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Expose the port on which your Node.js application will run (if applicable)
+# Expose port 5500
 EXPOSE 5500
 
-# Command to run the Node.js application
-CMD ["npm", "start"]
+# Command to start the web server
+CMD ["nginx", "-g", "daemon off;"]
+
