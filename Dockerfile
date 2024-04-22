@@ -1,15 +1,17 @@
-# Use a base image with Nginx and Alpine Linux
+# Use a lightweight web server as the base image
 FROM nginx:alpine
 
 # Set the working directory inside the container
 WORKDIR /usr/share/nginx/html
 
-# Copy the index.html file to the Nginx web server directory
-COPY ./index.html /usr/share/nginx/html/
+# Copy HTML, CSS, JavaScript, and images to the web server directory
+COPY html/ .
+COPY css/ css/
+COPY js/ js/
+COPY images/ images/
 
-# Expose port 5500
-EXPOSE 5500
+# Expose port 80 (default for HTTP)
+EXPOSE 80
 
-# Command to start the web server
+# Command to start the Nginx web server
 CMD ["nginx", "-g", "daemon off;"]
-
