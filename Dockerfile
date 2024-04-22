@@ -1,20 +1,20 @@
-# Use a base image with Nginx to serve static files
-FROM nginx:alpine
+# Use the official Node.js image with Alpine Linux as the base image
+FROM node:alpine
 
 # Set the working directory inside the container
-WORKDIR /usr/share/nginx/html
+WORKDIR /usr/src/app
 
-# Copy HTML, CSS, JS, and images to Nginx web server directory
-COPY html /usr/share/nginx/html
-COPY css /usr/share/nginx/html/css
-COPY js /usr/share/nginx/html/js
-COPY images /usr/share/nginx/html/images
+# Copy package.json and package-lock.json files to the working directory
+COPY package*.json ./
 
-# Copy the default Nginx configuration file to serve your application on port 5500
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install dependencies
+RUN npm install
 
-# Expose port 5500
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port on which your Node.js application will run (if applicable)
 EXPOSE 5500
 
-# Command to start the web server
-CMD ["nginx", "-g", "daemon off;"]
+# Command to run the Node.js application
+CMD ["npm", "start"]
