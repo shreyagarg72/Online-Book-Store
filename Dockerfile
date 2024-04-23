@@ -11,7 +11,12 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the application code
-COPY . .
+COPY html ./html
+COPY css ./css
+COPY js ./js
+
+# Create the dist directory
+RUN mkdir dist
 
 # Build the application
 RUN npm run build
