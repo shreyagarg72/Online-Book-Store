@@ -1,17 +1,29 @@
-# Use a lightweight web server as the base image
-FROM nginx:alpine
+# Use the official Node.js image as the base
+FROM node:latest
 
-# Set the working directory inside the container
-WORKDIR /usr/share/nginx/html
+# Set the working directory
+WORKDIR /app
 
-# Copy HTML, CSS, JavaScript, and images to the web server directory
-COPY html/ .
-COPY css/ css/
-COPY js/ js/
-COPY images/ images/
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
 
-# Expose port 80 (default for HTTP)
+# Install dependencies
+RUN npm install
+
+# Copy the application code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Use Nginx to serve the static files
+FROM nginx:latest
+
+# Copy the built files from the previous stage
+COPY --from=0 /app/dist /usr/share/nginx/html
+
+# Expose port 5500 for incoming HTTP traffic
 EXPOSE 5500
 
-# Command to start the Nginx web server
-CMD ["nginx", "-g", "daemon off;"]
+# Start Nginx and set the port to 5500
+CMD ["nginx", "-g", "daemon off;", "-p", "5500"]

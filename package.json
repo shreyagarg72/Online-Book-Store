@@ -1,0 +1,11 @@
+{
+  "name": "frontend-projects",
+  "version": "1.0.0",
+  "description": "HTML, CSS, and JavaScript projects",
+  "scripts": {
+    "build": "npm run copy-static",
+    "copy-static": "cp -r html css js dist"
+  },
+  "author": "",
+  "license": "ISC"
+}
