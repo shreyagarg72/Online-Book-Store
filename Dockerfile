@@ -1,29 +1,11 @@
-# Use the official Node.js image as the base
-FROM node:latest
+# Stage 1: Build stage
+FROM nginx:alpine AS builder
 
-# Set the working directory
-WORKDIR /app
+# Copy the static files to the Nginx HTML directory
+COPY . /usr/share/nginx/html
 
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
+# Stage 2: Production stage
+FROM nginx:alpine
 
-# Install dependencies
-RUN npm install
-
-# Copy the application code
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Use Nginx to serve the static files
-FROM nginx:latest
-
-# Copy the built files from the previous stage
-COPY --from=0 /app/dist /usr/share/nginx/html
-
-# Expose port 5500 for incoming HTTP traffic
+# Expose port 80 for HTTP traffic
 EXPOSE 5500
-
-# Start Nginx and set the port to 5500
-CMD ["nginx", "-g", "daemon off;", "-p", "5500"]
